@@ -1,0 +1,1354 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OnlinePDFEdits — Free Online PDF Editor & Suite</title>
+  <meta name="description" content="Edit PDF text, insert eSignatures, merge, compress, and convert PDF documents in your browser. 100% free, no sign-up, no watermarks, client-side privacy.">
+  <meta name="keywords" content="edit pdf online, free pdf editor, sign pdf, merge pdf, compress pdf, convert pdf, no watermark pdf editor">
+  
+  <!-- Open Graph / Social Meta -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://onlinepdfedits.github.io/">
+  <meta property="og:title" content="OnlinePDFEdits — Free Online PDF Editor & Suite">
+  <meta property="og:description" content="Edit PDF text, sign documents, and manipulate pages right in your browser. No registration, no watermarks.">
+  <meta property="og:image" content="https://onlinepdfedits.com/og/og-facebook.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="OnlinePDFEdits — Free Online PDF Editor">
+  <meta name="twitter:description" content="Browser-based online PDF editing without formatting loss. Fast, secure, and completely free.">
+  
+  <link rel="canonical" href="https://onlinepdfedits.github.io/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* --- CSS Variables & Design System --- */
+    :root {
+      --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+      --font-heading: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+
+      /* Dark Theme (Default) */
+      --bg-page: #0b0f17;
+      --bg-surface: #111827;
+      --bg-surface-elevated: #162032;
+      --bg-surface-hover: #1f2b42;
+      --border-subtle: #1f293d;
+      --border-accent: rgba(99, 102, 241, 0.35);
+      --text-main: #f3f4f6;
+      --text-secondary: #9ca3af;
+      --text-muted: #6b7280;
+      --brand-primary: #6366f1;
+      --brand-hover: #4f46e5;
+      --brand-glow: rgba(99, 102, 241, 0.25);
+      --accent-coral: #f97316;
+      --accent-coral-glow: rgba(249, 115, 22, 0.2);
+      --badge-bg: rgba(99, 102, 241, 0.12);
+      --badge-text: #a5b4fc;
+      --badge-border: rgba(99, 102, 241, 0.25);
+      --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.5);
+      --nav-bg: rgba(11, 15, 23, 0.82);
+    }
+
+    [data-theme="light"] {
+      --bg-page: #f8fafc;
+      --bg-surface: #ffffff;
+      --bg-surface-elevated: #f1f5f9;
+      --bg-surface-hover: #e2e8f0;
+      --border-subtle: #e2e8f0;
+      --border-accent: rgba(99, 102, 241, 0.3);
+      --text-main: #0f172a;
+      --text-secondary: #475569;
+      --text-muted: #64748b;
+      --brand-primary: #4f46e5;
+      --brand-hover: #4338ca;
+      --brand-glow: rgba(79, 70, 229, 0.18);
+      --accent-coral: #ea580c;
+      --accent-coral-glow: rgba(234, 88, 12, 0.15);
+      --badge-bg: rgba(79, 70, 229, 0.08);
+      --badge-text: #4338ca;
+      --badge-border: rgba(79, 70, 229, 0.2);
+      --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+      --nav-bg: rgba(248, 250, 252, 0.85);
+    }
+
+    /* --- Reset & Global --- */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      line-height: 1.6;
+      transition: background-color 0.25s ease, color 0.25s ease;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* --- Navbar --- */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--nav-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-subtle);
+      transition: background-color 0.25s ease, border-color 0.25s ease;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-heading);
+      font-weight: 800;
+      font-size: 1.25rem;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-icon {
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, var(--accent-coral), var(--brand-primary));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 1.1rem;
+      box-shadow: 0 4px 12px var(--brand-glow);
+    }
+
+    .brand-text span {
+      background: linear-gradient(135deg, var(--accent-coral), var(--brand-primary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-link {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      transition: color 0.15s ease;
+    }
+
+    .nav-link:hover {
+      color: var(--text-main);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .theme-toggle {
+      background: transparent;
+      border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+
+    .theme-toggle:hover {
+      background: var(--bg-surface-elevated);
+      color: var(--text-main);
+      border-color: var(--border-accent);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-size: 0.92rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      border: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #6366f1, #4f46e5);
+      color: #ffffff;
+      box-shadow: 0 4px 14px var(--brand-glow);
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #4f46e5, #4338ca);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px var(--brand-glow);
+    }
+
+    .btn-secondary {
+      background: var(--bg-surface);
+      color: var(--text-main);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .btn-secondary:hover {
+      background: var(--bg-surface-elevated);
+      border-color: var(--border-accent);
+      transform: translateY(-1px);
+    }
+
+    .btn-coral {
+      background: linear-gradient(135deg, #f97316, #ea580c);
+      color: #ffffff;
+      box-shadow: 0 4px 14px var(--accent-coral-glow);
+    }
+
+    .btn-coral:hover {
+      background: linear-gradient(135deg, #ea580c, #c2410c);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px var(--accent-coral-glow);
+    }
+
+    /* --- Hero Section --- */
+    .hero {
+      padding: 80px 0 60px;
+      text-align: center;
+      position: relative;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: -100px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 700px;
+      height: 380px;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.18), transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 820px;
+      margin: 0 auto;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: var(--badge-bg);
+      color: var(--badge-text);
+      border: 1px solid var(--badge-border);
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 8px #22c55e;
+    }
+
+    .hero-title {
+      font-family: var(--font-heading);
+      font-size: clamp(2.4rem, 5.5vw, 4rem);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      margin-bottom: 22px;
+    }
+
+    .hero-title .gradient-text {
+      background: linear-gradient(135deg, #f97316 10%, #6366f1 70%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: clamp(1.05rem, 2vw, 1.25rem);
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 36px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hero-buttons {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 48px;
+    }
+
+    .btn-lg {
+      padding: 14px 28px;
+      font-size: 1.05rem;
+      border-radius: 12px;
+    }
+
+    /* --- Interactive Dropzone & App Preview --- */
+    .dropzone-card {
+      background: var(--bg-surface);
+      border: 2px dashed var(--border-subtle);
+      border-radius: 20px;
+      padding: 44px 28px;
+      box-shadow: var(--card-shadow);
+      transition: all 0.25s ease;
+      cursor: pointer;
+      text-align: center;
+      max-width: 680px;
+      margin: 0 auto;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .dropzone-card:hover {
+      border-color: var(--brand-primary);
+      background: var(--bg-surface-elevated);
+      transform: translateY(-2px);
+    }
+
+    .dropzone-icon-wrap {
+      width: 64px;
+      height: 64px;
+      background: var(--badge-bg);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+      color: var(--brand-primary);
+    }
+
+    .dropzone-title {
+      font-family: var(--font-heading);
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .dropzone-desc {
+      font-size: 0.92rem;
+      color: var(--text-secondary);
+      margin-bottom: 18px;
+    }
+
+    .dropzone-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      background: var(--bg-page);
+      border: 1px solid var(--border-subtle);
+      border-radius: 999px;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    /* --- Trust Metrics Strip --- */
+    .trust-strip {
+      padding: 40px 0;
+      border-top: 1px solid var(--border-subtle);
+      border-bottom: 1px solid var(--border-subtle);
+      margin: 40px 0;
+    }
+
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 24px;
+      text-align: center;
+    }
+
+    .metric-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .metric-value {
+      font-family: var(--font-heading);
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .metric-label {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+    }
+
+    /* --- Tool Showcase Grid --- */
+    .section {
+      padding: 80px 0;
+    }
+
+    .section-header {
+      text-align: center;
+      max-width: 640px;
+      margin: 0 auto 52px;
+    }
+
+    .section-tag {
+      text-transform: uppercase;
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      font-weight: 700;
+      color: var(--brand-primary);
+      margin-bottom: 10px;
+    }
+
+    .section-title {
+      font-family: var(--font-heading);
+      font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+
+    .section-desc {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+    }
+
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 24px;
+    }
+
+    .tool-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 26px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      box-shadow: var(--card-shadow);
+      transition: all 0.25s ease;
+      position: relative;
+    }
+
+    .tool-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--border-accent);
+      background: var(--bg-surface-elevated);
+      box-shadow: 0 12px 28px -4px rgba(0, 0, 0, 0.2);
+    }
+
+    .tool-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      background: var(--badge-bg);
+      color: var(--brand-primary);
+    }
+
+    .tool-title {
+      font-family: var(--font-heading);
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+
+    .tool-desc {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      flex-grow: 1;
+    }
+
+    .tool-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--brand-primary);
+      margin-top: 4px;
+      transition: gap 0.15s ease;
+    }
+
+    .tool-card:hover .tool-link {
+      gap: 10px;
+    }
+
+    /* --- Feature Pillars --- */
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 32px;
+    }
+
+    .pillar-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      padding: 36px;
+      box-shadow: var(--card-shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .pillar-icon-box {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(249, 115, 22, 0.2));
+      border: 1px solid var(--border-accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      color: var(--brand-primary);
+    }
+
+    .pillar-title {
+      font-family: var(--font-heading);
+      font-size: 1.35rem;
+      font-weight: 700;
+    }
+
+    .pillar-text {
+      color: var(--text-secondary);
+      font-size: 0.98rem;
+      line-height: 1.6;
+    }
+
+    /* --- Comparison Table --- */
+    .table-wrap {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      overflow-x: auto;
+      box-shadow: var(--card-shadow);
+    }
+
+    .comp-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.95rem;
+    }
+
+    .comp-table th, .comp-table td {
+      padding: 18px 24px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .comp-table th {
+      background: var(--bg-surface-elevated);
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    .comp-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .highlight-col {
+      background: rgba(99, 102, 241, 0.05);
+      font-weight: 600;
+    }
+
+    .badge-check {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #22c55e;
+      font-weight: 600;
+    }
+
+    .badge-cross {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #ef4444;
+      font-weight: 500;
+    }
+
+    /* --- Workflow Steps --- */
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 32px;
+      position: relative;
+    }
+
+    .step-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 18px;
+      padding: 32px 24px;
+      text-align: center;
+      position: relative;
+    }
+
+    .step-number {
+      width: 44px;
+      height: 44px;
+      background: var(--brand-primary);
+      color: #ffffff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-heading);
+      font-size: 1.1rem;
+      font-weight: 800;
+      margin: 0 auto 20px;
+      box-shadow: 0 4px 14px var(--brand-glow);
+    }
+
+    .step-title {
+      font-family: var(--font-heading);
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .step-desc {
+      font-size: 0.92rem;
+      color: var(--text-secondary);
+    }
+
+    /* --- FAQ Section --- */
+    .faq-list {
+      max-width: 800px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .faq-item {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      overflow: hidden;
+      transition: border-color 0.2s ease;
+    }
+
+    .faq-item[open] {
+      border-color: var(--border-accent);
+    }
+
+    .faq-summary {
+      padding: 20px 24px;
+      font-family: var(--font-heading);
+      font-size: 1.05rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      user-select: none;
+    }
+
+    .faq-summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .faq-chevron {
+      transition: transform 0.2s ease;
+      color: var(--text-muted);
+    }
+
+    .faq-item[open] .faq-chevron {
+      transform: rotate(180deg);
+      color: var(--brand-primary);
+    }
+
+    .faq-content {
+      padding: 0 24px 22px;
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    /* --- Bottom CTA Card --- */
+    .cta-banner {
+      background: linear-gradient(135deg, #111827 0%, #1e1b4b 60%, #311042 100%);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 28px;
+      padding: clamp(40px, 6vw, 64px);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.6);
+      margin: 40px 0 80px;
+    }
+
+    .cta-banner::after {
+      content: '';
+      position: absolute;
+      width: 380px;
+      height: 380px;
+      background: radial-gradient(circle, rgba(249, 115, 22, 0.35), transparent 70%);
+      top: -100px;
+      right: -100px;
+      pointer-events: none;
+    }
+
+    .cta-title {
+      font-family: var(--font-heading);
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 16px;
+      letter-spacing: -0.02em;
+    }
+
+    .cta-desc {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 1.1rem;
+      max-width: 600px;
+      margin: 0 auto 32px;
+    }
+
+    /* --- Footer --- */
+    .footer {
+      border-top: 1px solid var(--border-subtle);
+      padding: 60px 0 40px;
+      background: var(--bg-surface);
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr repeat(3, 1fr);
+      gap: 40px;
+      margin-bottom: 48px;
+    }
+
+    .footer-col {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .footer-title {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      color: var(--text-main);
+      font-size: 0.98rem;
+      margin-bottom: 4px;
+    }
+
+    .footer-link {
+      color: var(--text-secondary);
+      transition: color 0.15s ease;
+    }
+
+    .footer-link:hover {
+      color: var(--brand-primary);
+    }
+
+    .footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 24px;
+      border-top: 1px solid var(--border-subtle);
+      flex-wrap: wrap;
+      gap: 16px;
+      font-size: 0.85rem;
+    }
+
+    /* --- Responsive --- */
+    @media (max-width: 900px) {
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+      .hero {
+        padding: 50px 0 40px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sticky Navbar -->
+  <header class="header">
+    <div class="container">
+      <nav class="nav">
+        <a href="https://onlinepdfedits.com/" class="brand" target="_blank" rel="noopener">
+          <div class="brand-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+          </div>
+          <div class="brand-text">OnlinePDF<span>Edits</span></div>
+        </a>
+
+        <ul class="nav-links">
+          <li><a href="#tools" class="nav-link">Tools</a></li>
+          <li><a href="#features" class="nav-link">Features</a></li>
+          <li><a href="#comparison" class="nav-link">Comparison</a></li>
+          <li><a href="#faq" class="nav-link">FAQ</a></li>
+          <li><a href="https://github.com/OnlinePDFEdits/feedback" class="nav-link" target="_blank" rel="noopener">GitHub</a></li>
+        </ul>
+
+        <div class="nav-actions">
+          <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme" title="Toggle dark/light mode">
+            <svg id="moonIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+            <svg id="sunIcon" style="display:none;" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="5"></circle>
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+          </button>
+          <a href="https://onlinepdfedits.com/edit-pdf" class="btn btn-primary" target="_blank" rel="noopener">
+            Launch Editor →
+          </a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-glow"></div>
+    <div class="container">
+      <div class="hero-content">
+        <div class="badge">
+          <span class="badge-dot"></span>
+          <span>100% Free · No Sign-Up · Zero Watermarks</span>
+        </div>
+        <h1 class="hero-title">
+          Edit PDFs Online with <span class="gradient-text">Pixel-Perfect</span> Accuracy.
+        </h1>
+        <p class="hero-subtitle">
+          Modify existing text with original font matching, insert electronic signatures, compress without quality loss, and organize pages directly in your browser.
+        </p>
+        <div class="hero-buttons">
+          <a href="https://onlinepdfedits.com/edit-pdf" class="btn btn-coral btn-lg" target="_blank" rel="noopener">
+            Start Editing Free →
+          </a>
+          <a href="#tools" class="btn btn-secondary btn-lg">
+            Explore 20+ Tools ↓
+          </a>
+        </div>
+
+        <!-- Interactive Drag & Drop Area -->
+        <div class="dropzone-card" id="dropzone" onclick="window.open('https://onlinepdfedits.com/edit-pdf', '_blank')">
+          <div class="dropzone-icon-wrap">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="17 8 12 3 7 8"></polyline>
+              <line x1="12" y1="3" x2="12" y2="15"></line>
+            </svg>
+          </div>
+          <div class="dropzone-title">Drop your PDF file here</div>
+          <p class="dropzone-desc">or click anywhere to open the full browser editor</p>
+          <div class="dropzone-pill">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+            100% Client-Side Privacy · Documents processed locally
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Metrics Strip -->
+  <section class="trust-strip">
+    <div class="container">
+      <div class="metrics-grid">
+        <div class="metric-item">
+          <div class="metric-value">100%</div>
+          <div class="metric-label">Free Forever (No Paywalls)</div>
+        </div>
+        <div class="metric-item">
+          <div class="metric-value">0</div>
+          <div class="metric-label">Watermarks on Exports</div>
+        </div>
+        <div class="metric-item">
+          <div class="metric-value">100</div>
+          <div class="metric-label">Page File Limit (Industry Leading)</div>
+        </div>
+        <div class="metric-item">
+          <div class="metric-value">Local</div>
+          <div class="metric-label">WebAssembly Assisted Rendering</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Popular PDF Tools Grid -->
+  <section id="tools" class="section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">All-in-One Toolkit</div>
+        <h2 class="section-title">Essential PDF Tools for Every Workflow</h2>
+        <p class="section-desc">Designed for students, business professionals, and legal workflows. Fast, accurate, and completely free.</p>
+      </div>
+
+      <div class="tools-grid">
+        <!-- Edit PDF Text -->
+        <div class="tool-card">
+          <div class="tool-icon">✍️</div>
+          <h3 class="tool-title">Edit PDF Text</h3>
+          <p class="tool-desc">Click and modify existing text directly. Automatically matches fonts, sizes, and alignments without breaking layout.</p>
+          <a href="https://onlinepdfedits.com/edit-pdf-text" class="tool-link" target="_blank" rel="noopener">Open Tool →</a>
+        </div>
+
+        <!-- Sign PDF -->
+        <div class="tool-card">
+          <div class="tool-icon">🖋️</div>
+          <h3 class="tool-title">Sign PDF</h3>
+          <p class="tool-desc">Draw, type, or upload digital signatures. Place signatures anywhere on agreements, contracts, and receipts.</p>
+          <a href="https://onlinepdfedits.com/sign-pdf" class="tool-link" target="_blank" rel="noopener">Open Tool →</a>
+        </div>
+
+        <!-- Merge PDF -->
+        <div class="tool-card">
+          <div class="tool-icon">📑</div>
+          <h3 class="tool-title">Merge PDF</h3>
+          <p class="tool-desc">Combine multiple PDF files into one clean document. Drag and drop to reorder pages before exporting.</p>
+          <a href="https://onlinepdfedits.com/merge-pdf" class="tool-link" target="_blank" rel="noopener">Open Tool →</a>
+        </div>
+
+        <!-- Compress PDF -->
+        <div class="tool-card">
+          <div class="tool-icon">🗜️</div>
+          <h3 class="tool-title">Compress PDF</h3>
+          <p class="tool-desc">Reduce PDF file size for email and upload portals while maintaining sharp vector typography and high image resolution.</p>
+          <a href="https://onlinepdfedits.com/compress-pdf" class="tool-link" target="_blank" rel="noopener">Open Tool →</a>
+        </div>
+
+        <!-- Word to PDF -->
+        <div class="tool-card">
+          <div class="tool-icon">📄</div>
+          <h3 class="tool-title">Word to PDF</h3>
+          <p class="tool-desc">Convert DOCX documents into production-standard PDF files with full formatting and embedded font preservation.</p>
+          <a href="https://onlinepdfedits.com/word-to-pdf" class="tool-link" target="_blank" rel="noopener">Open Tool →</a>
+        </div>
+
+        <!-- Delete Pages -->
+        <div class="tool-card">
+          <div class="tool-icon">🗑️</div>
+          <h3 class="tool-title">Delete & Extract Pages</h3>
+          <p class="tool-desc">Visually select unwanted pages to remove, or extract specific page ranges into a new standalone PDF.</p>
+          <a href="https://onlinepdfedits.com/delete-pdf-pages" class="tool-link" target="_blank" rel="noopener">Open Tool →</a>
+        </div>
+
+        <!-- Encrypt & Protect -->
+        <div class="tool-card">
+          <div class="tool-icon">🔒</div>
+          <h3 class="tool-title">Protect & Encrypt</h3>
+          <p class="tool-desc">Add standard AES password encryption to prevent unauthorized opening, copying, or printing.</p>
+          <a href="https://onlinepdfedits.com/encrypt-pdf" class="tool-link" target="_blank" rel="noopener">Open Tool →</a>
+        </div>
+
+        <!-- Images to PDF -->
+        <div class="tool-card">
+          <div class="tool-icon">🖼️</div>
+          <h3 class="tool-title">Images to PDF</h3>
+          <p class="tool-desc">Convert JPG, PNG, and HEIC photos into single or multi-page PDF documents with custom page margins.</p>
+          <a href="https://onlinepdfedits.com/images-to-pdf" class="tool-link" target="_blank" rel="noopener">Open Tool →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature Pillars -->
+  <section id="features" class="section" style="background: var(--bg-surface-elevated);">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Engineering Highlights</div>
+        <h2 class="section-title">Built Different from Legacy PDF Tools</h2>
+        <p class="section-desc">Why thousands of professionals switch to OnlinePDFEdits every week.</p>
+      </div>
+
+      <div class="pillars-grid">
+        <div class="pillar-card">
+          <div class="pillar-icon-box">🎯</div>
+          <h3 class="pillar-title">True Inline Editing</h3>
+          <p class="pillar-text">
+            Most "free" PDF editors just paste white rectangles over old words and slap crude text boxes on top. OnlinePDFEdits parses font streams, kerning, and line bounds so your corrections look original.
+          </p>
+        </div>
+
+        <div class="pillar-card">
+          <div class="pillar-icon-box">🛡️</div>
+          <h3 class="pillar-title">Zero File Rentention</h3>
+          <p class="pillar-text">
+            Your confidential files are processed in real-time. We never store, index, sell, or train AI models on your private invoices, financial statements, or contracts.
+          </p>
+        </div>
+
+        <div class="pillar-card">
+          <div class="pillar-icon-box">⚡</div>
+          <h3 class="pillar-title">Instant, No-Friction UX</h3>
+          <p class="pillar-text">
+            No signup forms. No email verification traps. No "free trial" that demands a credit card. Open the site, make your edits, and download your clean PDF in seconds.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Comparison Section -->
+  <section id="comparison" class="section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">The Honest Truth</div>
+        <h2 class="section-title">How We Compare to Other Editors</h2>
+        <p class="section-desc">See why users choose OnlinePDFEdits over expensive subscriptions.</p>
+      </div>
+
+      <div class="table-wrap">
+        <table class="comp-table">
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th class="highlight-col">OnlinePDFEdits</th>
+              <th>Adobe Acrobat</th>
+              <th>Smallpdf</th>
+              <th>iLovePDF</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Price</strong></td>
+              <td class="highlight-col"><span class="badge-check">✓ 100% Free</span></td>
+              <td>$19.99 / month</td>
+              <td>$9.00 / month</td>
+              <td>Freemium ($7/mo)</td>
+            </tr>
+            <tr>
+              <td><strong>Sign-Up Required?</strong></td>
+              <td class="highlight-col"><span class="badge-check">✓ No Account Needed</span></td>
+              <td><span class="badge-cross">✗ Required</span></td>
+              <td><span class="badge-cross">✗ Required after 2 uses</span></td>
+              <td><span class="badge-cross">✗ Required for limits</span></td>
+            </tr>
+            <tr>
+              <td><strong>Export Watermarks</strong></td>
+              <td class="highlight-col"><span class="badge-check">✓ Zero Watermarks</span></td>
+              <td><span class="badge-cross">✗ Trial Watermark</span></td>
+              <td><span class="badge-check">✓ None</span></td>
+              <td><span class="badge-check">✓ None</span></td>
+            </tr>
+            <tr>
+              <td><strong>Inline Text Replacement</strong></td>
+              <td class="highlight-col"><span class="badge-check">✓ True Font Matching</span></td>
+              <td><span class="badge-check">✓ Yes</span></td>
+              <td><span class="badge-cross">✗ Overlay box only</span></td>
+              <td><span class="badge-cross">✗ Overlay box only</span></td>
+            </tr>
+            <tr>
+              <td><strong>Page Limit (Free)</strong></td>
+              <td class="highlight-col"><span class="badge-check">✓ 100 Pages</span></td>
+              <td>Trial only</td>
+              <td>Limited daily quota</td>
+              <td>File size capped</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Workflow Steps -->
+  <section class="section" style="background: var(--bg-surface-elevated);">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Simplicity First</div>
+        <h2 class="section-title">Three Steps to a Perfect Document</h2>
+      </div>
+
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-number">1</div>
+          <h3 class="step-title">Open Document</h3>
+          <p class="step-desc">Drag and drop your PDF into the browser. Documents load instantly without slow server queues.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-number">2</div>
+          <h3 class="step-title">Edit & Sign</h3>
+          <p class="step-desc">Click text to change wording, insert your eSignature, add high-res graphics, or delete unwanted pages.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-number">3</div>
+          <h3 class="step-title">Instant Export</h3>
+          <p class="step-desc">Download your finished vector PDF immediately. Crisp, lightweight, and ready for official submission.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Accordion -->
+  <section id="faq" class="section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Common Questions</div>
+        <h2 class="section-title">Frequently Asked Questions</h2>
+        <p class="section-desc">Everything you need to know about our browser-based PDF suite.</p>
+      </div>
+
+      <div class="faq-list">
+        <details class="faq-item" open>
+          <summary class="faq-summary">
+            Is OnlinePDFEdits really free?
+            <span class="faq-chevron">▼</span>
+          </summary>
+          <div class="faq-content">
+            Yes, completely. There are no hidden paywalls, no trial expirations, and no credit card requirements. All tools including text editing, eSignatures, compression, and conversion are free to use.
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-summary">
+            Are my files private and secure?
+            <span class="faq-chevron">▼</span>
+          </summary>
+          <div class="faq-content">
+            We use client-assisted WebAssembly and ephemeral server processing. Your documents are never kept in long-term cloud storage, never indexed, and never shared with third parties.
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-summary">
+            Can I edit existing text or just add new text?
+            <span class="faq-chevron">▼</span>
+          </summary>
+          <div class="faq-content">
+            You can edit existing text! Unlike basic tools that only let you type on top of a page, OnlinePDFEdits identifies existing text runs and lets you fix typos, update dates, or edit paragraphs while preserving font families and alignments.
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-summary">
+            Does it work on Mac, Windows, Linux, and Mobile?
+            <span class="faq-chevron">▼</span>
+          </summary>
+          <div class="faq-content">
+            Yes! OnlinePDFEdits runs on any modern browser (Chrome, Edge, Safari, Firefox) on desktop, tablet, and mobile devices without installing software or extensions.
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-summary">
+            How do I submit feedback or report a bug?
+            <span class="faq-chevron">▼</span>
+          </summary>
+          <div class="faq-content">
+            We maintain an open community feedback repository on GitHub! You can submit bug reports, vote on feature requests, and follow development at <a href="https://github.com/OnlinePDFEdits/feedback" style="color: var(--brand-primary); text-decoration: underline;" target="_blank" rel="noopener">github.com/OnlinePDFEdits/feedback</a>.
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Banner -->
+  <section class="container">
+    <div class="cta-banner">
+      <h2 class="cta-title">Ready to Edit Your PDF Right Now?</h2>
+      <p class="cta-desc">Join thousands of users who edit, sign, and convert PDFs every day with zero hassle.</p>
+      <a href="https://onlinepdfedits.com/edit-pdf" class="btn btn-coral btn-lg" target="_blank" rel="noopener">
+        Open Online Editor (Free) →
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <div class="brand">
+            <div class="brand-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+              </svg>
+            </div>
+            <div class="brand-text">OnlinePDF<span>Edits</span></div>
+          </div>
+          <p style="margin-top: 8px; max-width: 320px;">
+            The fast, free, browser-native PDF editor built for privacy, accuracy, and ease of use.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <div class="footer-title">Popular Tools</div>
+          <a href="https://onlinepdfedits.com/edit-pdf" class="footer-link" target="_blank" rel="noopener">Edit PDF</a>
+          <a href="https://onlinepdfedits.com/sign-pdf" class="footer-link" target="_blank" rel="noopener">Sign PDF</a>
+          <a href="https://onlinepdfedits.com/compress-pdf" class="footer-link" target="_blank" rel="noopener">Compress PDF</a>
+          <a href="https://onlinepdfedits.com/merge-pdf" class="footer-link" target="_blank" rel="noopener">Merge PDF</a>
+        </div>
+
+        <div class="footer-col">
+          <div class="footer-title">Converters</div>
+          <a href="https://onlinepdfedits.com/word-to-pdf" class="footer-link" target="_blank" rel="noopener">Word to PDF</a>
+          <a href="https://onlinepdfedits.com/images-to-pdf" class="footer-link" target="_blank" rel="noopener">Images to PDF</a>
+          <a href="https://onlinepdfedits.com/heic-to-pdf" class="footer-link" target="_blank" rel="noopener">HEIC to PDF</a>
+          <a href="https://onlinepdfedits.com/pdf-to-markdown" class="footer-link" target="_blank" rel="noopener">PDF to Markdown</a>
+        </div>
+
+        <div class="footer-col">
+          <div class="footer-title">Community & Open Hub</div>
+          <a href="https://github.com/OnlinePDFEdits" class="footer-link" target="_blank" rel="noopener">GitHub Organization</a>
+          <a href="https://github.com/OnlinePDFEdits/feedback" class="footer-link" target="_blank" rel="noopener">Issue Tracker / Feedback</a>
+          <a href="https://onlinepdfedits.com/blog" class="footer-link" target="_blank" rel="noopener">Blog & Tutorials</a>
+          <a href="https://onlinepdfedits.com/privacy-policy" class="footer-link" target="_blank" rel="noopener">Privacy Policy</a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>© 2026 OnlinePDFEdits. All rights reserved.</div>
+        <div style="display: flex; gap: 20px;">
+          <a href="https://onlinepdfedits.com/terms" class="footer-link" target="_blank" rel="noopener">Terms</a>
+          <a href="https://onlinepdfedits.com/privacy-policy" class="footer-link" target="_blank" rel="noopener">Privacy</a>
+          <a href="https://onlinepdfedits.com/security" class="footer-link" target="_blank" rel="noopener">Security</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Interactive JavaScript for Theme Toggle and Drag-Drop UX -->
+  <script>
+    // Theme Toggle
+    const htmlEl = document.documentElement;
+    const themeBtn = document.getElementById('themeToggle');
+    const moonIcon = document.getElementById('moonIcon');
+    const sunIcon = document.getElementById('sunIcon');
+
+    function updateIcons(theme) {
+      if (theme === 'dark') {
+        moonIcon.style.display = 'none';
+        sunIcon.style.display = 'block';
+      } else {
+        moonIcon.style.display = 'block';
+        sunIcon.style.display = 'none';
+      }
+    }
+
+    // Check saved or preferred theme
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const initialTheme = savedTheme ? savedTheme : (prefersDark ? 'dark' : 'light');
+
+    htmlEl.setAttribute('data-theme', initialTheme);
+    updateIcons(initialTheme);
+
+    themeBtn.addEventListener('click', () => {
+      const current = htmlEl.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      htmlEl.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+      updateIcons(next);
+    });
+
+    // Drag and Drop redirection to editor
+    const dropzone = document.getElementById('dropzone');
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+      dropzone.addEventListener(eventName, (e) => {
+        e.preventDefault();
+        dropzone.style.borderColor = 'var(--accent-coral)';
+        dropzone.style.transform = 'scale(1.02)';
+      }, false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+      dropzone.addEventListener(eventName, (e) => {
+        e.preventDefault();
+        dropzone.style.borderColor = '';
+        dropzone.style.transform = '';
+      }, false);
+    });
+
+    dropzone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      // Forward to live editor
+      window.open('https://onlinepdfedits.com/edit-pdf', '_blank');
+    });
+  </script>
+</body>
+</html>
